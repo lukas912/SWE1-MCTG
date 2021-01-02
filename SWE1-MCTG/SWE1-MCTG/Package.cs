@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Monster_Trading_Card_Game
+namespace SWE1_MCTG
 {
     class Package
     {

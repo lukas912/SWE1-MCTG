@@ -2,25 +2,29 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Monster_Trading_Card_Game
+namespace SWE1_MCTG
 {
-    class User
+    public class User
     {
-        string username { get; set; }
-        string displayName { get; set; }
-        string email { get; set; }
-        string password { get; set; }
-        int coins { get; set; }
+        public string username { get; set; }
+        public string displayName { get; set; }
+        public string email { get; set; }
+        public string password { get; set; }
+        public int coins { get; set; }
+        public string bio { get; set; }
+        public string image { get; set; }
 
         Stack stack;
 
-        public User(string username, string displayName, string email, string password, Stack stack)
+        public User(string username, string displayName, string email, string password, int coins, string image, string bio)
         {
             this.username = username;
             this.displayName = displayName;
             this.email = email;
             this.password = password;
-            this.stack = stack;
+            this.coins = coins;
+            this.image = image;
+            this.bio = bio;
         }
 
         public string getUsername()

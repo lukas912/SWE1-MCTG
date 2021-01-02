@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Monster_Trading_Card_Game
+namespace SWE1_MCTG
 {
-    class Deck
+    public class Deck
     {
         List<ICard> cards = new List<ICard>();
         User user { get; set; }
@@ -18,6 +18,11 @@ namespace Monster_Trading_Card_Game
         public User getUser()
         {
             return user;
+        }
+
+        public string test()
+        {
+            return "test";
         }
 
         public List<ICard> listCardsIncluded()

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Monster_Trading_Card_Game
+namespace SWE1_MCTG
 {
-    class Stack
+    public class Stack
     {
         List<ICard> cards = new List<ICard>();
         User user { get; set; }

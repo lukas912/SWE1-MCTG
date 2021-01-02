@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 
-namespace Monster_Trading_Card_Game.MTCG_Tests
+namespace MTCG_Tests
 {
     [TestFixture]
     class BattleTest

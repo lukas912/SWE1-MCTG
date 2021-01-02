@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Monster_Trading_Card_Game
+namespace SWE1_MCTG
 {
-    interface ICard
+    public interface ICard
     {
+        string cardID { get; set; }
         string name { get; set; }
-        int damage { get; set; }
+        double damage { get; set; }
         string cardType { get; set; }
+        string packageID { get; set; }
+        double weakness { get; set; }
 
         string getName();
-        int getDamage();
+        double getDamage();
         string getCardType();
 
     }

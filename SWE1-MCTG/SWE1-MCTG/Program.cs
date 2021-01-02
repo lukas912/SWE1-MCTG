@@ -8,7 +8,8 @@ namespace SWE1_MCTG
         {
             Console.WriteLine("Hello World!");
             DB_Connection dbc = new DB_Connection();
-            dbc.getUsers();
+
+            
         }
     }
 }
