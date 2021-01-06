@@ -47,7 +47,6 @@ namespace SWE1_MCTG
             {
                 sessions.Remove(sessions.Find(obj => { return obj.Username == username; }));
                 sessions.Remove(sessions.Find(obj => { return obj.Username == username; }));
-                Console.WriteLine("COUNT IN: " + sessions.Count);
                 return true;
             }
 
@@ -96,6 +95,30 @@ namespace SWE1_MCTG
             catch
             {
                 Console.WriteLine("anderer fehler catch");
+                return false;
+            }
+        }
+
+        public bool DeleteUser(string username)
+        {
+            var cs = "Host=localhost;Username=postgres;Password=postgres;Database=MCTG-DB";
+
+            using var con = new NpgsqlConnection(cs);
+            con.Open();
+            Console.WriteLine("HIER");
+            try
+            {
+                using (var cmd = new NpgsqlCommand("DELETE FROM \"Users\" WHERE username = @uid", con))
+                {
+                    cmd.Parameters.AddWithValue("uid", username);
+                    cmd.ExecuteNonQuery();
+                }
+
+                return true;
+            }
+
+            catch
+            {
                 return false;
             }
         }
@@ -234,15 +257,34 @@ namespace SWE1_MCTG
 
         public string GetUserStats(string token)
         {
-            if(GetUsernameByToken(token) != null)
-            {
-                return "some stats";
-            } 
 
-            else
-            {
-                return "No user found";
-            }
+                // Connect to a PostgreSQL database
+                var cs = "Host=localhost;Username=postgres;Password=postgres;Database=MCTG-DB";
+                string output = "";
+                using var con = new NpgsqlConnection(cs);
+                con.Open();
+
+                using (var cmd = new NpgsqlCommand("SELECT * FROM \"Stats\" WHERE username = @uid", con))
+                {
+                    cmd.Parameters.AddWithValue("uid", GetUsernameByToken(token));
+
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            output += "Battle: " + reader.GetString(reader.GetOrdinal("battle_id"))
+                                    + "\nGewonnen: " + reader.GetBoolean(reader.GetOrdinal("sieg")).ToString()
+                                    + "\nPunktestand: " + reader.GetInt16(reader.GetOrdinal("punktestand")).ToString()
+                                    + "\nBattle Zeit: " + reader.GetString(reader.GetOrdinal("battle_time")) +
+                                    "\n\n";
+                        }
+                    }
+
+
+                }
+                return output;
+            
         }
 
         public string ShowTradingDeals()
@@ -280,17 +322,43 @@ namespace SWE1_MCTG
             return output;
         }
 
-        public string GetUserScore(string token)
+        public string GetUserScore(string bid)
         {
-            if (GetUsernameByToken(token) != null)
-            {
-                return "user score";
-            }
 
-            else
+            // Connect to a PostgreSQL database
+            var cs = "Host=localhost;Username=postgres;Password=postgres;Database=MCTG-DB";
+            string output = "";
+            using var con = new NpgsqlConnection(cs);
+            con.Open();
+
+            Console.WriteLine("BATTLE ID: " + bid);
+
+            using (var cmd = new NpgsqlCommand("SELECT * FROM \"Stats\" WHERE battle_id = @bid", con))
             {
-                return "No user found";
+                cmd.Parameters.AddWithValue("bid", bid);
+
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        output += "Punkte von " + reader.GetString(reader.GetOrdinal("username")) + ": " +
+                            reader.GetInt16(reader.GetOrdinal("punktestand"));
+                        if(reader.GetBoolean(reader.GetOrdinal("sieg")) == true)
+                        {
+                            output += " (Sieger)\n";
+                        }
+
+                        else
+                        {
+                            output += " (Verlierer)\n";
+                        }
+                    }
+                }
+
+
             }
+            return output;
         }
 
 
@@ -376,6 +444,11 @@ namespace SWE1_MCTG
 
         }
 
+        public string getSessionID(string content)
+        {
+            return sessions.Find(obj => { return obj.Username == content; }).Session_id;
+        }
+
         public bool CheckUser(string username, string password)
         {
 
@@ -435,38 +508,170 @@ namespace SWE1_MCTG
 
         }
 
+        static int tpackage_id = 1000;
         public bool Trade(string header_data, string trade_id, string mycard_id)
+        {
+            // Connect to a PostgreSQL database
+
+            int pid1 = tpackage_id;
+            CreateNewPackage(tpackage_id);
+            tpackage_id--;
+            int pid2 = tpackage_id;
+            CreateNewPackage(tpackage_id);
+            tpackage_id--;
+
+
+
+            string username_provider = GetUserNameTrader(trade_id);
+            string username_trader = GetUsernameByToken(header_data);
+
+            if(username_provider == username_trader)
+            {
+                return false;
+            }
+
+            else
+            {
+                CreateNewUserPackage(pid1, username_provider);
+                CreateNewUserPackage(pid2, username_trader);
+
+                string cardid_trader = mycard_id;
+                string cardid_provider = getCardIDFromTrading(trade_id);
+
+                Console.WriteLine(pid1 + " " + pid2 + " " + username_provider + " " + username_trader + " " + cardid_provider);
+
+                ChangeCardPackage(pid1, cardid_trader);
+                ChangeCardPackage(pid2, cardid_provider);
+                
+                var cs = "Host=localhost;Username=postgres;Password=postgres;Database=MCTG-DB";
+                using var con = new NpgsqlConnection(cs);
+                con.Open();
+
+                
+                using (var cmd = new NpgsqlCommand("DELETE FROM \"Trading\" WHERE trading_id = @t", con))
+                {
+                    cmd.Parameters.AddWithValue("t", trade_id);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+
+                return true;
+            }
+
+
+        }
+
+        private void ChangeCardPackage(int pid, string cardid)
+        {
+            var cs = "Host=localhost;Username=postgres;Password=postgres;Database=MCTG-DB";
+
+            using var con = new NpgsqlConnection(cs);
+            con.Open();
+
+            using (var cmd = new NpgsqlCommand("UPDATE \"Card\" SET package_id = @pid WHERE card_id = @cid", con))
+            {
+                cmd.Parameters.AddWithValue("pid", pid);
+                cmd.Parameters.AddWithValue("cid", cardid);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        private string getCardIDFromTrading(string trade_id)
         {
             // Connect to a PostgreSQL database
             var cs = "Host=localhost;Username=postgres;Password=postgres;Database=MCTG-DB";
             using var con = new NpgsqlConnection(cs);
             con.Open();
+            string output = "";
 
-            using (var cmd = new NpgsqlCommand("SELECT * FROM \"Trading\" JOIN \"Card\" USING(tid) WHERE trading_id = @tid", con))
+
+            using (var cmd = new NpgsqlCommand("SELECT * FROM \"Trading\" WHERE trading_id = @tid", con))
             {
                 cmd.Parameters.AddWithValue("tid", trade_id);
+
+
 
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        if(reader.GetString(reader.GetOrdinal("card_type")) == "MonsterCard")
-                        {
-                            
-                        }
-
-                        if (reader.GetString(reader.GetOrdinal("card_type")) == "SpellCard")
-                        {
-
-                        }
-
+                        output = reader.GetString(reader.GetOrdinal("card_id"));
                     }
+
+
                 }
 
 
             }
 
-            return true;
+            return output;
+
+        }
+
+        private void CreateNewUserPackage(int pid, string username)
+        {
+            var cs = "Host=localhost;Username=postgres;Password=postgres;Database=MCTG-DB";
+
+            using var con = new NpgsqlConnection(cs);
+            con.Open();
+
+            using (var cmd = new NpgsqlCommand("INSERT INTO \"User_Packages\" (username, package_id) VALUES (@uid, @pid)", con))
+            {
+                cmd.Parameters.AddWithValue("pid", pid);
+                cmd.Parameters.AddWithValue("uid", username);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        private string GetUserNameTrader(string trade_id)
+        {
+            // Connect to a PostgreSQL database
+            var cs = "Host=localhost;Username=postgres;Password=postgres;Database=MCTG-DB";
+            using var con = new NpgsqlConnection(cs);
+            con.Open();
+            string output = "";
+
+
+                using (var cmd = new NpgsqlCommand("SELECT * FROM \"Trading\" WHERE trading_id = @tid", con))
+                {
+                    cmd.Parameters.AddWithValue("tid", trade_id);
+
+
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            output = reader.GetString(reader.GetOrdinal("username"));
+                        }
+
+
+                    }
+
+
+                }
+
+            return output;
+       
+
+        }
+
+        private void CreateNewPackage(int tpackage_id)
+        {
+
+            var cs = "Host=localhost;Username=postgres;Password=postgres;Database=MCTG-DB";
+
+            using var con = new NpgsqlConnection(cs);
+            con.Open();
+
+                    using (var cmd = new NpgsqlCommand("INSERT INTO \"Package\" (package_id) VALUES (@pid)", con))
+                    {
+                        cmd.Parameters.AddWithValue("pid", tpackage_id);
+                        cmd.ExecuteNonQuery();
+                    }
+
+
         }
 
         public void CreateTradingDeal(string header_data, string tradingid, string card_id, string card_type, string damage)
