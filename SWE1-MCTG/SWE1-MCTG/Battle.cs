@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SWE1_MCTG
 {
-    class Battle
+    public class Battle
     {
         List<User> players = new List<User>();
 

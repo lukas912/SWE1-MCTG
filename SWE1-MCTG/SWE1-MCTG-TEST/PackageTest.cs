@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
+using SWE1_MCTG;
 
 namespace MTCG_Tests
 {
@@ -12,25 +13,25 @@ namespace MTCG_Tests
         public void getNameTest()
         {
             Package p = new Package("Package1", 5);
-            Assert.IsNotNull(p.getName());
+            Assert.IsNotNull(p.GetName());
         }
 
         [Test]
         public void getPriceTest()
         {
             Package p = new Package("Package1", 5);
-            Assert.IsNotNull(p.getPrice());
+            Assert.IsNotNull(p.GetPrice());
         }
 
         [Test]
         public void addCardsTest()
         {
             Package p = new Package("Package1", 5);
-            MonsterCard c1 = new MonsterCard("garados", 120);
-            MonsterCard c2 = new MonsterCard("pichu", 12);
-            MonsterCard c3 = new MonsterCard("pikachu", 100);
-            MonsterCard c4 = new MonsterCard("karpador", 0);
-            MonsterCard c5 = new MonsterCard("lapras", 150);
+            MonsterCard c1 = new MonsterCard("0", "pikachu", 10, "test", "test", 10);
+            MonsterCard c2 = new MonsterCard("0", "pikachu", 10, "test", "test", 10);
+            MonsterCard c3 = new MonsterCard("0", "pikachu", 10, "test", "test", 10);
+            MonsterCard c4 = new MonsterCard("0", "pikachu", 10, "test", "test", 10);
+            MonsterCard c5 = new MonsterCard("0", "pikachu", 10, "test", "test", 10);
             List<ICard> mycards = new List<ICard>();
             mycards.Add(c1);
             mycards.Add(c2);
@@ -41,7 +42,7 @@ namespace MTCG_Tests
 
             try
             {
-                p.addCards(mycards);
+                p.AddCards(mycards);
                 return; // indicates success
             }
             catch (Exception ex)

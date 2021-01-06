@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SWE1_MCTG
 {
-    class Package
+    public class Package
     {
         List<ICard> cards = new List<ICard>();
         string PackageName { get; set; }

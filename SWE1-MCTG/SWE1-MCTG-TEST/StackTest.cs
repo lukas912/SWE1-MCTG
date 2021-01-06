@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection.Metadata;
 using System.Text;
 using NUnit.Framework;
+using SWE1_MCTG;
 
 namespace MTCG_Tests
 {
@@ -13,14 +14,14 @@ namespace MTCG_Tests
         public void addCard()
         {
             Stack st = new Stack();
-            User myuser = new User("Lukas2511", "lukas", "lukas.n912@gmail.com", "1234", st);
-            st.setUser(myuser);
-            MonsterCard card1 = new MonsterCard("karpador", 0);
-            MonsterCard card2 = new MonsterCard("pikachu", 10);
+            User myuser = new User("Lukas2511", "lukas", "lukas.n912@gmail.com", "1234", 20, "img", "bio");
+            st.SetUser(myuser);
+            MonsterCard card1 = new MonsterCard("0", "pikachu", 10, "test", "test", 10);
+            MonsterCard card2 = new MonsterCard("0", "pikachu", 10, "test", "test", 10);
             try
             {
-                st.addCard(card1);
-                st.addCard(card2);
+                st.AddCard(card1);
+                st.AddCard(card2);
                 return; // indicates success
             }
             catch (Exception ex)
@@ -33,38 +34,38 @@ namespace MTCG_Tests
         public void getUser()
         {
             Stack st = new Stack();
-            User myuser = new User("Lukas2511", "lukas", "lukas.n912@gmail.com", "1234", st);
-            st.setUser(myuser);
+            User myuser = new User("Lukas2511", "lukas", "lukas.n912@gmail.com", "1234", 20, "img", "bio");
+            st.SetUser(myuser);
 
-            Assert.IsNotNull(st.getUser());
+            Assert.IsNotNull(st.GetUser());
         }
 
         [Test]
         public void listCards()
         {
             Stack st = new Stack();
-            User myuser = new User("Lukas2511", "lukas", "lukas.n912@gmail.com", "1234", st);
-            st.setUser(myuser);
+            User myuser = new User("Lukas2511", "lukas", "lukas.n912@gmail.com", "1234", 20, "img", "bio");
+            st.SetUser(myuser);
             
 
-            Assert.IsNotNull(st.listCards());
+            Assert.IsNotNull(st.ListCards());
         }
 
         [Test]
         public void removeCard()
         {
             Stack st = new Stack();
-            User myuser = new User("Lukas2511", "lukas", "lukas.n912@gmail.com", "1234", st);
-            st.setUser(myuser);
-            
-            MonsterCard card1 = new MonsterCard("karpador", 0);
-            MonsterCard card2 = new MonsterCard("pikachu", 10);
+            User myuser = new User("Lukas2511", "lukas", "lukas.n912@gmail.com", "1234", 20, "img", "bio");
+            st.SetUser(myuser);
+
+            MonsterCard card1 = new MonsterCard("0", "pikachu", 10, "test", "test", 10);
+            MonsterCard card2 = new MonsterCard("0", "pikachu", 10, "test", "test", 10);
 
             try
             {
-                st.addCard(card1);
-                st.addCard(card2);
-                st.removeCard(card2);
+                st.AddCard(card1);
+                st.AddCard(card2);
+                st.RemoveCard(card2);
                 return; // indicates success
             }
             catch (Exception ex)

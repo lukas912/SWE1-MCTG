@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SWE1_MCTG
 {
-    class TradingSystem
+    public class TradingSystem
     {
         static public void TradeCard(ICard card1, ICard card2, User user1, User user2)
         {
