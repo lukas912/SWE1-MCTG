@@ -8,26 +8,26 @@ namespace SWE1_MCTG
     class Package
     {
         List<ICard> cards = new List<ICard>();
-        string packageName { get; set; }
-        int price { get; set; }
+        string PackageName { get; set; }
+        int Price { get; set; }
 
         public Package(string name, int price)
         {
-            this.packageName = name;
-            this.price = price;
+            this.PackageName = name;
+            this.Price = price;
         }
 
-        public string getName()
+        public string GetName()
         {
-            return packageName;
+            return PackageName;
         }
 
-        public int getPrice()
+        public int GetPrice()
         {
-            return this.price;
+            return this.Price;
         }
 
-        public void addCards(List<ICard> cards)
+        public void AddCards(List<ICard> cards)
         {
             this.cards = cards;
         }

@@ -10,7 +10,7 @@ namespace MTCG_Tests
     {
 
         [Test]
-        public void getUsernameTest()
+        public void GetUsernameTest()
         {
             Stack st = new Stack();
             User myuser = new User("Lukas2511", "lukas", "lukas.n912@gmail.com", "1234", st);
@@ -18,7 +18,7 @@ namespace MTCG_Tests
         }
 
         [Test]
-        public void getdisplayNameTest()
+        public void GetdisplayNameTest()
         {
             Stack st = new Stack();
             User myuser = new User("Lukas2511", "lukas", "lukas.n912@gmail.com", "1234", st);
@@ -26,7 +26,7 @@ namespace MTCG_Tests
         }
 
         [Test]
-        public void getEmailTest()
+        public void GetEmailTest()
         {
             Stack st = new Stack();
             User myuser = new User("Lukas2511", "lukas", "lukas.n912@gmail.com", "1234", st);
@@ -34,7 +34,7 @@ namespace MTCG_Tests
         }
 
         [Test]
-        public void setEmailTest()
+        public void SetEmailTest()
         {
             Stack st = new Stack();
             User myuser = new User("Lukas2511", "lukas", "lukas.n912@gmail.com", "1234", st);
@@ -51,7 +51,7 @@ namespace MTCG_Tests
         }
 
         [Test]
-        public void setDisplayNameTest()
+        public void SetDisplayNameTest()
         {
             Stack st = new Stack();
             User myuser = new User("Lukas2511", "lukas", "lukas.n912@gmail.com", "1234", st);

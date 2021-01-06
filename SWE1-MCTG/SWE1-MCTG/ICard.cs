@@ -6,16 +6,16 @@ namespace SWE1_MCTG
 {
     public interface ICard
     {
-        string cardID { get; set; }
-        string name { get; set; }
-        double damage { get; set; }
-        string cardType { get; set; }
-        string packageID { get; set; }
-        double weakness { get; set; }
+        string CardID { get; set; }
+        string Name { get; set; }
+        double Damage { get; set; }
+        string CardType { get; set; }
+        string PackageID { get; set; }
+        double Weakness { get; set; }
 
-        string getName();
-        double getDamage();
-        string getCardType();
+        string GetName();
+        double GetDamage();
+        string GetCardType();
 
     }
 }

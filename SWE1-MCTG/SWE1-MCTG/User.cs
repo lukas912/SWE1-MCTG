@@ -6,70 +6,70 @@ namespace SWE1_MCTG
 {
     public class User
     {
-        public string username { get; set; }
-        public string displayName { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public int coins { get; set; }
-        public string bio { get; set; }
-        public string image { get; set; }
+        public string Username { get; set; }
+        public string DisplayName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public int Coins { get; set; }
+        public string Bio { get; set; }
+        public string Image { get; set; }
 
         Stack stack;
 
         public User(string username, string displayName, string email, string password, int coins, string image, string bio)
         {
-            this.username = username;
-            this.displayName = displayName;
-            this.email = email;
-            this.password = password;
-            this.coins = coins;
-            this.image = image;
-            this.bio = bio;
+            this.Username = username;
+            this.DisplayName = displayName;
+            this.Email = email;
+            this.Password = password;
+            this.Coins = coins;
+            this.Image = image;
+            this.Bio = bio;
         }
 
-        public string getUsername()
+        public string GetUsername()
         {
-            return this.username;
+            return this.Username;
         }
 
-        public Stack getStack()
+        public Stack GetStack()
         {
             return stack;
         }
 
-        public string getdisplayName()
+        public string GetdisplayName()
         {
-            return this.displayName;
+            return this.DisplayName;
         }
 
-        public string getEmail()
+        public string GetEmail()
         {
-            return this.email;
+            return this.Email;
         }
 
-        public void setDisplayName(string dn)
+        public void SetDisplayName(string dn)
         {
             if (dn.Length <= 20 && dn.Length > 0)
-                this.displayName = dn;
+                this.DisplayName = dn;
             else
                 throw new System.ArgumentException("DisplayName too long or null", "dn");
         }
 
-        public void setEmail(string em)
+        public void SetEmail(string em)
         {
             if (em.Contains("@"))
-                this.email = em;
+                this.Email = em;
             else
                 throw new System.ArgumentException("Email not valid", "em");
 
         }
 
-        void selectDeckCards(ICard[] cards)
+        void SelectDeckCards(ICard[] cards)
         {
 
         }
 
-        void aqcuirePackage(Package package)
+        void AqcuirePackage(Package package)
         {
 
         }

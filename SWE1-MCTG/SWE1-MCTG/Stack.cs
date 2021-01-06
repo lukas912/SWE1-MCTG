@@ -8,14 +8,14 @@ namespace SWE1_MCTG
     public class Stack
     {
         List<ICard> cards = new List<ICard>();
-        User user { get; set; }
+        User User { get; set; }
 
-        public void setUser(User user)
+        public void SetUser(User user)
         {
-            this.user = user;
+            this.User = user;
         }
 
-        public void addCard(ICard card)
+        public void AddCard(ICard card)
         {
             try
             {
@@ -29,19 +29,19 @@ namespace SWE1_MCTG
             
         }
 
-        public void removeCard(ICard card)
+        public void RemoveCard(ICard card)
         {
             cards.Remove(card);
         }
 
-        public List<ICard> listCards()
+        public List<ICard> ListCards()
         {
             return cards;
         }
 
-        public User getUser()
+        public User GetUser()
         {
-            return this.user;
+            return this.User;
         }
     }
 }

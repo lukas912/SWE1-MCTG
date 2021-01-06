@@ -8,24 +8,24 @@ namespace SWE1_MCTG
     {
         List<User> players = new List<User>();
 
-        string battleName { get; set; }
+        string BattleName { get; set; }
 
         public Battle(string name)
         {
-            this.battleName = name;
+            this.BattleName = name;
         }
 
-        public void addUser(User u)
+        public void AddUser(User u)
         {
             this.players.Add(u);
         }
 
-        public string getName()
+        public string GetName()
         {
-            return battleName;
+            return BattleName;
         }
 
-        public List<User> listPlayers()
+        public List<User> ListPlayers()
         {
             return players;
         }
